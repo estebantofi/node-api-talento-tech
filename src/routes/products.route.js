@@ -50,11 +50,20 @@ products.get("/:id", getProductById);
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - title
+ *               - price
+ *               - image
+ *               - description
  *             properties:
- *               name:
+ *               title:
+ *                 type: string
+ *               image:
+ *                 type: string
+ *               description:
  *                 type: string
  *               price:
- *                 type: number
+ *                 type: string
  *     responses:
  *       200:
  *         description: Creado con éxito

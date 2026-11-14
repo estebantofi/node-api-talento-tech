@@ -21,11 +21,11 @@ app.use(cors());
 app.use(json());
 
 // Swagger
-if (process.env.NODE_ENV !== "production") {
-  const swaggerDocs = swaggerJSDoc(swaggerOptions);
+// if (process.env.NODE_ENV !== "production") {
+const swaggerDocs = swaggerJSDoc(swaggerOptions);
 
-  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-}
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+// }
 
 // Rutas
 app.use(`${prefix}/products`, verifyToken, products);
