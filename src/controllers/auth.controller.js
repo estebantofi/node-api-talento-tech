@@ -1,18 +1,27 @@
 import { signToken } from "../utils/jwt.js";
+import { loginWithUsernamePassword } from "../services/login.service.js";
 
-export const login = (req, res) => {
+export const login = async (req, res) => {
   const { username, password } = req.body || {};
 
-  if (username === "admin" && password === "1234") {
-    const usuarioData = { id: 1, username: "admin", role: "admin" };
+  if (username && password) {
+    try {
+      const user = await loginWithUsernamePassword(username, password);
 
-    const token = signToken(usuarioData);
+      if (!user) {
+        return res.status(404).json({ mensaje: "Usuario no encontrado" });
+      }
 
-    return res.json({
-      mensaje: "Login exitoso",
-      token,
-    });
+      const token = signToken(user);
+
+      return res.json({
+        mensaje: "Login exitoso",
+        token,
+      });
+    } catch {
+      return res.status(500).json({ error: "Error interno del servidor" });
+    }
   }
 
-  res.status(401).json({ error: "Credenciales incorrectas" });
+  res.status(401).json({ error: "Credenciales Obligatorias" });
 };

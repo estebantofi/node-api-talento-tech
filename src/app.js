@@ -12,6 +12,7 @@ import { verifyToken } from "./utils/jwt.js";
 import { swaggerOptions } from "./config/swagger.js";
 
 const app = express();
+app.disable("x-powered-by");
 
 const prefix = "/api";
 
