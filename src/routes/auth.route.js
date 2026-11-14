@@ -41,7 +41,7 @@ const auth = Router();
  *                   type: string
  *                   example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
  *       401:
- *         description: Credenciales incorrectas
+ *         description: Faltan las credenciales obligatorias
  *         content:
  *           application/json:
  *             schema:
@@ -49,7 +49,28 @@ const auth = Router();
  *               properties:
  *                 error:
  *                   type: string
- *                   example: Credenciales incorrectas
+ *             example:
+ *               error: Credenciales Obligatorias
+ *       404:
+ *         description: Usuario no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 mensaje:
+ *                   type: string
+ *             example:
+ *               mensaje: Usuario no encontrado
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
  */
 auth.post("/login", login);
 

@@ -16,7 +16,63 @@ const products = Router();
  *     tags: [Products]
  *     responses:
  *       200:
- *         description: Lista obtenida con éxito
+ *         description: Productos encontrados
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 mensaje:
+ *                   type: string
+ *                   example: Productos encontrados
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                         example: abc123
+ *                       title:
+ *                         type: string
+ *                         example: Producto de ejemplo
+ *                       image:
+ *                         type: string
+ *                         example: https://example.com/image.jpg
+ *                       description:
+ *                         type: string
+ *                         example: Descripción del producto
+ *                       price:
+ *                         type: string
+ *                         example: "19.99"
+ *             example:
+ *               mensaje: Productos encontrados
+ *               data:
+ *                 - id: abc123
+ *                   title: Producto de ejemplo
+ *                   image: https://example.com/image.jpg
+ *                   description: Descripción del producto
+ *                   price: "19.99"
+ *       404:
+ *         description: Colección de productos no encontrada o vacía
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 mensaje:
+ *                   type: string
+ *             example:
+ *               mensaje: Coleccion no encontrada
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
  */
 products.get("/", getProducts);
 
@@ -30,11 +86,69 @@ products.get("/", getProducts);
  *       - in: path
  *         name: id
  *         required: true
+ *         description: Identificador del producto
  *         schema:
  *           type: string
  *     responses:
  *       200:
- *         description: OK
+ *         description: Producto encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 mensaje:
+ *                   type: string
+ *                   example: Producto encontrado
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                       example: abc123
+ *                     title:
+ *                       type: string
+ *                       example: Producto de ejemplo
+ *                     image:
+ *                       type: string
+ *                       example: https://example.com/image.jpg
+ *                     description:
+ *                       type: string
+ *                       example: Descripción del producto
+ *                     price:
+ *                       type: string
+ *                       example: "19.99"
+ *       400:
+ *         description: No se proporcionó el identificador
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 mensaje:
+ *                   type: string
+ *             example:
+ *               mensaje: Id requerido
+ *       404:
+ *         description: Producto no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 mensaje:
+ *                   type: string
+ *             example:
+ *               mensaje: Producto no encontrado
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
  */
 products.get("/:id", getProductById);
 
@@ -44,6 +158,7 @@ products.get("/:id", getProductById);
  *   post:
  *     summary: Crea un nuevo producto
  *     tags: [Products]
+ *     description: Requiere autenticación Bearer con un JWT válido.
  *     requestBody:
  *       required: true
  *       content:
@@ -52,21 +167,71 @@ products.get("/:id", getProductById);
  *             type: object
  *             required:
  *               - title
- *               - price
  *               - image
  *               - description
+ *               - price
  *             properties:
  *               title:
  *                 type: string
+ *                 example: Producto de ejemplo
  *               image:
  *                 type: string
+ *                 example: https://example.com/image.jpg
  *               description:
  *                 type: string
+ *                 example: Descripción del producto
  *               price:
  *                 type: string
+ *                 example: "19.99"
  *     responses:
- *       200:
- *         description: Creado con éxito
+ *       201:
+ *         description: Producto creado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 mensaje:
+ *                   type: string
+ *                   example: Producto creado
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                       example: abc123
+ *                     title:
+ *                       type: string
+ *                       example: Producto de ejemplo
+ *                     image:
+ *                       type: string
+ *                       example: https://example.com/image.jpg
+ *                     description:
+ *                       type: string
+ *                       example: Descripción del producto
+ *                     price:
+ *                       type: string
+ *                       example: "19.99"
+ *       400:
+ *         description: Faltan campos requeridos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 mensaje:
+ *                   type: string
+ *             example:
+ *               mensaje: Todos los campos son requeridos
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
  */
 products.post("/create", createProduct);
 
@@ -80,11 +245,52 @@ products.post("/create", createProduct);
  *       - in: path
  *         name: id
  *         required: true
+ *         description: Identificador del producto
  *         schema:
  *           type: string
  *     responses:
  *       200:
- *         description: Eliminado con éxito
+ *         description: Producto eliminado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 mensaje:
+ *                   type: string
+ *             example:
+ *               mensaje: Producto Eliminado
+ *       400:
+ *         description: No se proporcionó el identificador
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 mensaje:
+ *                   type: string
+ *             example:
+ *               mensaje: Id requerido
+ *       404:
+ *         description: Producto no encontrado para eliminar
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 mensaje:
+ *                   type: string
+ *             example:
+ *               mensaje: Producto no encontrado para eliminar
+ *       500:
+ *         description: Error interno del servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
  */
 products.delete("/:id", deleteProduct);
 
