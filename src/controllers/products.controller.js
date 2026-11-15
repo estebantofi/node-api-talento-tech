@@ -1,27 +1,16 @@
 import {
   deleteProductById,
-  getAllCollection,
-  addProduct,
-  searchProductById,
+  getAllProducts,
+  findProductById,
+  saveProduct,
 } from "../services/products.service.js";
 
 export const getProducts = async (req, res) => {
   try {
-    const collection = await getAllCollection();
-
-    const products = [];
-
-    if (collection) {
-      collection.forEach((doc) => {
-        products.push({
-          id: doc.id,
-          ...doc.data(),
-        });
-      });
-    }
-
+    const products = await getAllProducts();
     res.json({ mensaje: "Productos encontrados", data: products });
-  } catch {
+  } catch (error) {
+    console.error("error:", error);
     return res.status(500).json({ error: "Error interno del servidor" });
   }
 };
@@ -31,14 +20,15 @@ export const getProductById = async (req, res) => {
 
   if (id) {
     try {
-      const product = await searchProductById(id);
+      const product = await findProductById(id);
 
       if (!product) {
         return res.status(404).json({ mensaje: "Producto no encontrado" });
       }
 
       return res.json({ mensaje: "Producto encontrado", data: product });
-    } catch {
+    } catch (error) {
+      console.error("error:", error);
       return res.status(500).json({ error: "Error interno del servidor" });
     }
   }
@@ -51,12 +41,13 @@ export const createProduct = async (req, res) => {
 
   if (title && image && description && price) {
     try {
-      const product = await addProduct(req.body);
+      const product = await saveProduct(req.body);
 
       return res
         .status(201)
         .json({ mensaje: "Producto creado", data: product });
-    } catch {
+    } catch (error) {
+      console.error("error:", error);
       return res.status(500).json({ error: "Error interno del servidor" });
     }
   }
@@ -78,7 +69,8 @@ export const deleteProduct = async (req, res) => {
       }
 
       return res.json({ mensaje: "Producto Eliminado" });
-    } catch {
+    } catch (error) {
+      console.error("error:", error);
       return res.status(500).json({ error: "Error interno del servidor" });
     }
   }
