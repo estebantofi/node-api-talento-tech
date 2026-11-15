@@ -9,18 +9,16 @@ export const getProducts = async (req, res) => {
   try {
     const collection = await getAllCollection();
 
-    if (!collection) {
-      return res.status(404).json({ mensaje: "Coleccion no encontrada" });
-    }
-
     const products = [];
 
-    collection.forEach((doc) => {
-      products.push({
-        id: doc.id,
-        ...doc.data(),
+    if (collection) {
+      collection.forEach((doc) => {
+        products.push({
+          id: doc.id,
+          ...doc.data(),
+        });
       });
-    });
+    }
 
     res.json({ mensaje: "Productos encontrados", data: products });
   } catch {

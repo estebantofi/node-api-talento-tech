@@ -53,17 +53,6 @@ const products = Router();
  *                   image: https://example.com/image.jpg
  *                   description: Descripción del producto
  *                   price: "19.99"
- *       404:
- *         description: Colección de productos no encontrada o vacía
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 mensaje:
- *                   type: string
- *             example:
- *               mensaje: Coleccion no encontrada
  *       500:
  *         description: Error interno del servidor
  *         content:
